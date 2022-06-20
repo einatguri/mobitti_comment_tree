@@ -2,39 +2,61 @@ import './tree_theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'root_comment_widget.dart';
+
 class CommentChildWidget extends StatelessWidget {
   final PreferredSizeWidget? avatar;
   final Widget? content;
   final bool? isLast;
   final Size? avatarRoot;
+  final int commentLevel;
+  final bool hasReplies;
 
-  const CommentChildWidget({
-    required this.isLast,
-    required this.avatar,
-    required this.content,
-    required this.avatarRoot,
-  });
+  const CommentChildWidget(
+      {required this.isLast,
+      required this.avatar,
+      required this.content,
+      required this.avatarRoot,
+      required this.commentLevel,
+      required this.hasReplies});
 
   @override
   Widget build(BuildContext context) {
     bool isRTL = Directionality.of(context) == TextDirection.rtl;
+    final horizontalPadding = commentLevel == 1
+        ? (avatarRoot!.width + 8.0) * commentLevel
+        : avatarRoot!.width * commentLevel;
     final EdgeInsets padding = EdgeInsets.only(
-        left: isRTL ? 0 : avatarRoot!.width + 8.0,
-        bottom: 8,
-        top: 8,
-        right: isRTL ? avatarRoot!.width + 8.0 : 0);
+        left: isRTL ? 0 : horizontalPadding,
+        bottom: 8.0,
+        top: 8.0,
+        right: isRTL ? horizontalPadding : 0);
 
     return CustomPaint(
-      painter: _Painter(
-        isLast: isLast!,
-        padding: padding,
-        textDirection: Directionality.of(context),
-        avatarRoot: avatarRoot,
-        avatarChild: avatar!.preferredSize,
-        pathColor: context.watch<TreeThemeData>().lineColor,
-        strokeWidth: context.watch<TreeThemeData>().lineWidth,
-      ),
-      child: Container(
+        painter: _Painter(
+          isLast: isLast!,
+          padding: padding,
+          textDirection: Directionality.of(context),
+          avatarRoot: commentLevel > 1
+              ? Size(avatarRoot!.width * (commentLevel + 1), avatarRoot!.height)
+              : avatarRoot,
+          avatarChild: avatar!.preferredSize,
+          pathColor: context.watch<TreeThemeData>().lineColor,
+          strokeWidth: context.watch<TreeThemeData>().lineWidth,
+        ),
+        child: isLast == true && hasReplies == true
+            ? CustomPaint(
+                painter: RootPainter(
+                    Size(avatarRoot!.width * (commentLevel + 2),
+                        avatarRoot!.height),
+                    context.watch<TreeThemeData>().lineColor,
+                    context.watch<TreeThemeData>().lineWidth,
+                    Directionality.of(context)),
+                child: contentWidget(padding))
+            : contentWidget(padding));
+  }
+
+  Widget contentWidget(EdgeInsets padding) => Container(
         padding: padding,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,9 +68,7 @@ class CommentChildWidget extends StatelessWidget {
             Expanded(child: content!),
           ],
         ),
-      ),
-    );
-  }
+      );
 }
 
 class _Painter extends CustomPainter {
@@ -91,7 +111,7 @@ class _Painter extends CustomPainter {
       0,
       rootDx,
       padding!.top + avatarChild!.height / 2,
-      rootDx * 2,
+      rootDx + 20,
       padding!.top + avatarChild!.height / 2,
     );
     canvas.drawPath(path, _paint);
