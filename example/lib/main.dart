@@ -44,19 +44,45 @@ class _MyHomePageState extends State<MyHomePage> {
               userName: 'null',
               content: 'felangel made felangel/cubit_and_beyond public '),
           [
-            Comment(
-                avatar: 'null', userName: 'null', content: 'replies level 1'),
-            Comment(
-                avatar: 'null', userName: 'null', content: 'replies level 1'),
-            Comment(
-                avatar: 'null', userName: 'null', content: 'replies level 1'),
-            Comment(
-                avatar: 'null', userName: 'null', content: 'replies level 1'),
-          ],
-          repliesLevelTwo: [
-            Comment(avatar: 'null', userName: 'null', content: 'Reply level 2'),
-            Comment(avatar: 'null', userName: 'null', content: 'Reply level 2'),
-            Comment(avatar: 'null', userName: 'null', content: 'Reply level 2'),
+            {
+              Comment(
+                  avatar: 'null',
+                  userName: 'null',
+                  content: 'replies level 1'): [
+                Comment(
+                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
+                Comment(
+                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
+                Comment(
+                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
+              ]
+            },
+            {
+              Comment(
+                  avatar: 'null',
+                  userName: 'null',
+                  content: 'replies level 1'): [
+                Comment(
+                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
+                Comment(
+                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
+                Comment(
+                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
+              ]
+            },
+            {
+              Comment(
+                  avatar: 'null',
+                  userName: 'null',
+                  content: 'replies level 1'): [
+                Comment(
+                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
+                Comment(
+                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
+                Comment(
+                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
+              ]
+            },
           ],
           treeThemeData:
               TreeThemeData(lineColor: Colors.green[500]!, lineWidth: 3),

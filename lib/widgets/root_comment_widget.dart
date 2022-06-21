@@ -5,8 +5,11 @@ import 'package:provider/provider.dart';
 class RootCommentWidget extends StatelessWidget {
   final PreferredSizeWidget avatar;
   final Widget content;
+  final int commentLevel;
+  final int totalNumberOfComments;
 
-  const RootCommentWidget(this.avatar, this.content);
+  const RootCommentWidget(this.avatar, this.content,
+      {required this.commentLevel, required this.totalNumberOfComments});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +18,9 @@ class RootCommentWidget extends StatelessWidget {
           avatar.preferredSize,
           context.watch<TreeThemeData>().lineColor,
           context.watch<TreeThemeData>().lineWidth,
-          Directionality.of(context)),
+          Directionality.of(context),
+          commentLevel: commentLevel,
+          totalNumberOfComments: totalNumberOfComments),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -37,9 +42,12 @@ class RootPainter extends CustomPainter {
   late Paint _paint;
   Color? pathColor;
   double? strokeWidth;
+  int totalNumberOfComments;
+  int commentLevel;
   final TextDirection textDecoration;
   RootPainter(
-      this.avatar, this.pathColor, this.strokeWidth, this.textDecoration) {
+      this.avatar, this.pathColor, this.strokeWidth, this.textDecoration,
+      {required this.commentLevel, required this.totalNumberOfComments}) {
     _paint = Paint()
       ..color = pathColor!
       ..style = PaintingStyle.stroke
@@ -54,7 +62,9 @@ class RootPainter extends CustomPainter {
     if (textDecoration == TextDirection.rtl) dx *= -1;
     canvas.drawLine(
       Offset(dx, avatar!.height),
-      Offset(dx, size.height),
+      commentLevel > 0
+          ? Offset(dx, size.height)
+          : Offset(dx, size.height * totalNumberOfComments - 10),
       _paint,
     );
   }

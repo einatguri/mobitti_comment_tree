@@ -10,7 +10,7 @@ class CommentChildWidget extends StatelessWidget {
   final bool? isLast;
   final Size? avatarRoot;
   final int commentLevel;
-  final bool hasReplies;
+  final int numberOfReplies;
 
   const CommentChildWidget(
       {required this.isLast,
@@ -18,7 +18,7 @@ class CommentChildWidget extends StatelessWidget {
       required this.content,
       required this.avatarRoot,
       required this.commentLevel,
-      required this.hasReplies});
+      required this.numberOfReplies});
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +44,16 @@ class CommentChildWidget extends StatelessWidget {
           pathColor: context.watch<TreeThemeData>().lineColor,
           strokeWidth: context.watch<TreeThemeData>().lineWidth,
         ),
-        child: isLast == true && hasReplies == true
+        child: numberOfReplies > 0
             ? CustomPaint(
                 painter: RootPainter(
                     Size(avatarRoot!.width * (commentLevel + 2),
                         avatarRoot!.height),
                     context.watch<TreeThemeData>().lineColor,
                     context.watch<TreeThemeData>().lineWidth,
-                    Directionality.of(context)),
+                    Directionality.of(context),
+                    commentLevel: commentLevel,
+                    totalNumberOfComments: 0),
                 child: contentWidget(padding))
             : contentWidget(padding));
   }
