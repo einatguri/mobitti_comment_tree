@@ -26,7 +26,7 @@ class RootCommentWidget extends StatelessWidget {
         children: [
           avatar,
           const SizedBox(
-            width: 8,
+            width: 4,
           ),
           Expanded(
             child: content,
@@ -64,7 +64,7 @@ class RootPainter extends CustomPainter {
       Offset(dx, avatar!.height),
       commentLevel > 0
           ? Offset(dx, size.height)
-          : Offset(dx, size.height * totalNumberOfComments - 10),
+          : Offset(dx, size.height * totalNumberOfComments - 25),
       _paint,
     );
   }

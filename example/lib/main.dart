@@ -94,71 +94,29 @@ class _MyHomePageState extends State<MyHomePage> {
               ]
             },
           ],
-          treeThemeData:
-              TreeThemeData(lineColor: Colors.green[500]!, lineWidth: 3),
+          treeThemeData: TreeThemeData(
+              lineColor: Theme.of(context).primaryColor, lineWidth: 1),
           avatarRoot: (context, data) => PreferredSize(
-            child: CircleAvatar(
-              radius: 18,
-              backgroundColor: Colors.grey,
-              backgroundImage: AssetImage('assets/avatar_2.png'),
-            ),
-            preferredSize: Size.fromRadius(18),
+            child: Icon(Icons.account_circle,
+                size: 42, color: Theme.of(context).primaryColor),
+            preferredSize: const Size.fromRadius(21),
           ),
-          avatarChild: (context, data) => PreferredSize(
-            child: CircleAvatar(
-              radius: 12,
-              backgroundColor: Colors.grey,
-              backgroundImage: AssetImage('assets/avatar_1.png'),
-            ),
-            preferredSize: Size.fromRadius(12),
-          ),
+          avatarChild: (context, data) {
+            return PreferredSize(
+              child: Icon(Icons.account_circle,
+                  size: 32, color: Theme.of(context).primaryColor),
+              preferredSize: const Size.fromRadius(18),
+            );
+          },
           contentChild: (context, data) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                  decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'dangngocduc',
-                        style: Theme.of(context).textTheme.caption?.copyWith(
-                            fontWeight: FontWeight.w600, color: Colors.black),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        '${data.content}',
-                        style: Theme.of(context).textTheme.caption?.copyWith(
-                            fontWeight: FontWeight.w300, color: Colors.black),
-                      ),
-                    ],
-                  ),
+                _commentCell(
+                  context,
+                  data,
                 ),
-                DefaultTextStyle(
-                  style: Theme.of(context).textTheme.caption!.copyWith(
-                      color: Colors.grey[700], fontWeight: FontWeight.bold),
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 4),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text('Like'),
-                        SizedBox(
-                          width: 24,
-                        ),
-                        Text('Reply'),
-                      ],
-                    ),
-                  ),
-                )
+                _commentActionsWidget(context),
               ],
             );
           },
@@ -166,54 +124,100 @@ class _MyHomePageState extends State<MyHomePage> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                  decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'dangngocduc',
-                        style: Theme.of(context).textTheme.caption!.copyWith(
-                            fontWeight: FontWeight.w600, color: Colors.black),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        '${data.content}',
-                        style: Theme.of(context).textTheme.caption!.copyWith(
-                            fontWeight: FontWeight.w300, color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-                DefaultTextStyle(
-                  style: Theme.of(context).textTheme.caption!.copyWith(
-                      color: Colors.grey[700], fontWeight: FontWeight.bold),
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 4),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text('Like'),
-                        SizedBox(
-                          width: 24,
-                        ),
-                        Text('Reply'),
-                      ],
-                    ),
-                  ),
-                )
+                _commentCell(context, data),
+                _commentActionsWidget(context)
               ],
             );
           },
         ),
         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      ),
+    );
+  }
+
+  Widget _commentCell(
+    BuildContext context,
+    Comment comment,
+  ) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+      decoration: BoxDecoration(
+          color: Colors.grey[100], borderRadius: BorderRadius.circular(12)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Text(comment.userName ?? '',
+                  style: Theme.of(context).textTheme.caption?.copyWith(
+                      fontWeight: FontWeight.w600, color: Colors.black),
+                  textAlign: TextAlign.start),
+              const Spacer(),
+              Text('12/12/12, 12:12',
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      ?.copyWith(color: Colors.black)),
+            ],
+          ),
+          const SizedBox(
+            height: 4,
+          ),
+          Text('${comment.content}',
+              style: Theme.of(context)
+                  .textTheme
+                  .caption
+                  ?.copyWith(fontWeight: FontWeight.w300, color: Colors.black),
+              textAlign: TextAlign.start),
+        ],
+      ),
+    );
+  }
+
+  Widget _commentActionsWidget(
+    BuildContext context,
+  ) {
+    return DefaultTextStyle(
+      style: Theme.of(context)
+          .textTheme
+          .caption!
+          .copyWith(color: Colors.grey[700], fontWeight: FontWeight.bold),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 4),
+        child: Row(
+          children: [
+            const SizedBox(
+              width: 8,
+            ),
+            Text('Like'),
+            const SizedBox(
+              width: 24,
+            ),
+            Text('Comment'),
+            const Spacer(),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text('2',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          ?.copyWith(fontSize: 12)),
+                ),
+                ClipOval(
+                  child: Container(
+                      height: 20,
+                      width: 20,
+                      color: Theme.of(context).primaryColor,
+                      child: const Center(
+                          child: Icon(Icons.thumb_up,
+                              color: Colors.white, size: 10))),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

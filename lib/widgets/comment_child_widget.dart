@@ -24,7 +24,7 @@ class CommentChildWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isRTL = Directionality.of(context) == TextDirection.rtl;
     final horizontalPadding = commentLevel == 1
-        ? (avatarRoot!.width + 8.0) * commentLevel
+        ? (avatarRoot!.width + 6.0) * commentLevel
         : avatarRoot!.width * commentLevel;
 
     final EdgeInsets padding = EdgeInsets.only(
@@ -66,7 +66,7 @@ class CommentChildWidget extends StatelessWidget {
           children: [
             avatar!,
             const SizedBox(
-              width: 8,
+              width: 4,
             ),
             Expanded(child: content!),
           ],
