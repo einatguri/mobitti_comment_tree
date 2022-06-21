@@ -26,6 +26,7 @@ class CommentChildWidget extends StatelessWidget {
     final horizontalPadding = commentLevel == 1
         ? (avatarRoot!.width + 8.0) * commentLevel
         : avatarRoot!.width * commentLevel;
+
     final EdgeInsets padding = EdgeInsets.only(
         left: isRTL ? 0 : horizontalPadding,
         bottom: 8.0,
@@ -113,7 +114,7 @@ class _Painter extends CustomPainter {
       0,
       rootDx,
       padding!.top + avatarChild!.height / 2,
-      rootDx + 20,
+      textDirection == TextDirection.rtl ? rootDx - 20 : rootDx + 20,
       padding!.top + avatarChild!.height / 2,
     );
     canvas.drawPath(path, _paint);
