@@ -64,7 +64,7 @@ class RootPainter extends CustomPainter {
       Offset(dx, avatar!.height),
       commentLevel > 0
           ? Offset(dx, size.height)
-          : Offset(dx, size.height * totalNumberOfComments - 25),
+          : Offset(dx, size.height * totalNumberOfComments - avatar!.height),
       _paint,
     );
   }

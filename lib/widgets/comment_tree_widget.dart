@@ -63,7 +63,8 @@ class _CommentTreeWidgetState<R, C> extends State<CommentTreeWidget<R, C>> {
             avatarRoot,
             widget.contentRoot!(context, widget.root),
             commentLevel: 0,
-            totalNumberOfComments: totalNumberOfComments - 1,
+            totalNumberOfComments:
+                totalNumberOfComments - widget.replies.length,
           ),
           ..._buildReplies(avatarRoot)
         ],
