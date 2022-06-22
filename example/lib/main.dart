@@ -65,6 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     avatar: 'null', userName: 'null', content: 'Reply level 2'),
                 Comment(
                     avatar: 'null', userName: 'null', content: 'Reply level 2'),
+                Comment(
+                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
               ]
             },
             {
@@ -72,6 +74,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   avatar: 'null',
                   userName: 'null',
                   content: 'replies level 1'): [
+                Comment(
+                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
+                Comment(
+                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
+                Comment(
+                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
+                Comment(
+                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
                 Comment(
                     avatar: 'null', userName: 'null', content: 'Reply level 2'),
                 Comment(
@@ -94,6 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ]
             },
           ],
+          isLast: true,
           treeThemeData: TreeThemeData(
               lineColor: Theme.of(context).primaryColor, lineWidth: 1),
           avatarRoot: (context, data) => PreferredSize(

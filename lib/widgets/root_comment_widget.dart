@@ -7,9 +7,12 @@ class RootCommentWidget extends StatelessWidget {
   final Widget content;
   final int commentLevel;
   final int totalNumberOfComments;
+  final bool isLast;
 
   const RootCommentWidget(this.avatar, this.content,
-      {required this.commentLevel, required this.totalNumberOfComments});
+      {required this.commentLevel,
+      required this.totalNumberOfComments,
+      required this.isLast});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,8 @@ class RootCommentWidget extends StatelessWidget {
           context.watch<TreeThemeData>().lineWidth,
           Directionality.of(context),
           commentLevel: commentLevel,
-          totalNumberOfComments: totalNumberOfComments),
+          totalNumberOfComments: totalNumberOfComments,
+          isLast: isLast),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -44,10 +48,13 @@ class RootPainter extends CustomPainter {
   double? strokeWidth;
   int totalNumberOfComments;
   int commentLevel;
+  bool isLast;
   final TextDirection textDecoration;
   RootPainter(
       this.avatar, this.pathColor, this.strokeWidth, this.textDecoration,
-      {required this.commentLevel, required this.totalNumberOfComments}) {
+      {required this.commentLevel,
+      required this.totalNumberOfComments,
+      required this.isLast}) {
     _paint = Paint()
       ..color = pathColor!
       ..style = PaintingStyle.stroke
@@ -62,9 +69,10 @@ class RootPainter extends CustomPainter {
     if (textDecoration == TextDirection.rtl) dx *= -1;
     canvas.drawLine(
       Offset(dx, avatar!.height),
-      commentLevel > 0
-          ? Offset(dx, size.height)
-          : Offset(dx, size.height * totalNumberOfComments - avatar!.height),
+      commentLevel == 0 && !isLast
+          ? Offset(dx,
+              size.height * (totalNumberOfComments + 20) - avatar!.height - 20)
+          : Offset(dx, size.height),
       _paint,
     );
   }

@@ -54,7 +54,8 @@ class CommentChildWidget extends StatelessWidget {
                     context.watch<TreeThemeData>().lineWidth,
                     Directionality.of(context),
                     commentLevel: commentLevel,
-                    totalNumberOfComments: 0),
+                    totalNumberOfComments: 0,
+                    isLast: isLast!),
                 child: contentWidget(padding))
             : contentWidget(padding));
   }

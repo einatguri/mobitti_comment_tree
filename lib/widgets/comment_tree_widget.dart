@@ -24,6 +24,7 @@ class CommentTreeWidget<R, C> extends StatefulWidget {
   final ContentBuilder<C>? contentChild;
 
   final TreeThemeData treeThemeData;
+  final bool isLast;
 
   const CommentTreeWidget(
     this.root,
@@ -33,6 +34,7 @@ class CommentTreeWidget<R, C> extends StatefulWidget {
     this.contentRoot,
     this.avatarChild,
     this.contentChild,
+    required this.isLast,
   });
 
   @override
@@ -65,6 +67,7 @@ class _CommentTreeWidgetState<R, C> extends State<CommentTreeWidget<R, C>> {
             commentLevel: 0,
             totalNumberOfComments:
                 totalNumberOfComments - widget.replies.length,
+            isLast: widget.isLast,
           ),
           ..._buildReplies(avatarRoot)
         ],
