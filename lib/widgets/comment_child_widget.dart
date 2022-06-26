@@ -18,7 +18,9 @@ class CommentChildWidget extends StatelessWidget {
       required this.content,
       required this.avatarRoot,
       required this.commentLevel,
-      required this.numberOfReplies});
+      required this.numberOfReplies,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,8 @@ class CommentChildWidget extends StatelessWidget {
                     Directionality.of(context),
                     commentLevel: commentLevel,
                     totalNumberOfComments: 0,
-                    isLast: isLast!),
+                    isLast: isLast!,
+                    directReplyCount: numberOfReplies),
                 child: contentWidget(padding))
             : contentWidget(padding));
   }

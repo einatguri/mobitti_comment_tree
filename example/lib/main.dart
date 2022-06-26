@@ -31,6 +31,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class CommentObject {
+  final Comment comment;
+  final List<Map<Comment, List<Comment>?>> replies;
+  const CommentObject({required this.comment, required this.replies});
+}
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -41,72 +47,92 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final List<CommentObject> commentList = [
+    CommentObject(
+        comment: Comment(
+            avatar: 'null',
+            userName: 'null',
+            content: 'felangel made felangel/cubit_and_beyond public '),
+        replies: []),
+    CommentObject(
+        comment: Comment(
+            avatar: 'null',
+            userName: 'null',
+            content: 'felangel made felangel/cubit_and_beyond public '),
+        replies: [
+          {
+            Comment(
+                avatar: 'null', userName: 'null', content: 'replies level 1'): [
+              Comment(
+                  avatar: 'null', userName: 'null', content: 'replies level 1')
+            ]
+          },
+          {
+            Comment(
+                avatar: 'null',
+                userName: 'null',
+                content: 'replies level 1'): []
+          }
+        ]),
+    CommentObject(
+        comment: Comment(
+            avatar: 'null',
+            userName: 'null',
+            content: 'felangel made felangel/cubit_and_beyond public '),
+        replies: []),
+    CommentObject(
+        comment: Comment(
+            avatar: 'null',
+            userName: 'null',
+            content: 'felangel made felangel/cubit_and_beyond public '),
+        replies: []),
+    CommentObject(
+        comment: Comment(
+            avatar: 'null',
+            userName: 'null',
+            content: 'felangel made felangel/cubit_and_beyond public '),
+        replies: [
+          {
+            Comment(
+                avatar: 'null', userName: 'null', content: 'replies level 1'): [
+              Comment(
+                  avatar: 'null', userName: 'null', content: 'Reply level 2'),
+              Comment(
+                  avatar: 'null', userName: 'null', content: 'Reply level 2'),
+            ]
+          },
+        ]),
+    CommentObject(
+        comment: Comment(
+            avatar: 'null',
+            userName: 'null',
+            content: 'felangel made felangel/cubit_and_beyond public '),
+        replies: []),
+    CommentObject(
+        comment: Comment(
+            avatar: 'null',
+            userName: 'null',
+            content: 'felangel made felangel/cubit_and_beyond public '),
+        replies: []),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: SingleChildScrollView(
-        child: CommentTreeWidget<Comment, Comment>(
-          Comment(
-              avatar: 'null',
-              userName: 'null',
-              content: 'felangel made felangel/cubit_and_beyond public '),
-          [
-            {
-              Comment(
-                  avatar: 'null',
-                  userName: 'null',
-                  content: 'replies level 1'): [
-                Comment(
-                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
-                Comment(
-                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
-                Comment(
-                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
-                Comment(
-                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
-              ]
-            },
-            {
-              Comment(
-                  avatar: 'null',
-                  userName: 'null',
-                  content: 'replies level 1'): [
-                Comment(
-                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
-                Comment(
-                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
-                Comment(
-                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
-                Comment(
-                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
-                Comment(
-                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
-                Comment(
-                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
-                Comment(
-                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
-              ]
-            },
-            {
-              Comment(
-                  avatar: 'null',
-                  userName: 'null',
-                  content: 'replies level 1'): [
-                Comment(
-                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
-                Comment(
-                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
-                Comment(
-                    avatar: 'null', userName: 'null', content: 'Reply level 2'),
-              ]
-            },
-          ],
-          isLast: true,
+      body: ListView.builder(
+        itemCount: commentList.length,
+        itemBuilder: (context, index) => CommentTreeWidget<Comment, Comment>(
+          commentList[index].comment,
+          commentList[index].replies,
+          isLast: commentList.indexOf(commentList[index]) ==
+              (commentList.length - 1),
           treeThemeData: TreeThemeData(
-              lineColor: Theme.of(context).primaryColor, lineWidth: 1),
+            lineColor: commentList[index].replies.isNotEmpty
+                ? Theme.of(context).primaryColor
+                : Colors.transparent,
+          ),
           avatarRoot: (context, data) => PreferredSize(
             child: Icon(Icons.account_circle,
                 size: 42, color: Theme.of(context).primaryColor),

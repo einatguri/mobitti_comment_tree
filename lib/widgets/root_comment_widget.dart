@@ -7,12 +7,16 @@ class RootCommentWidget extends StatelessWidget {
   final Widget content;
   final int commentLevel;
   final int totalNumberOfComments;
+  final int directReplyCount;
   final bool isLast;
 
   const RootCommentWidget(this.avatar, this.content,
       {required this.commentLevel,
       required this.totalNumberOfComments,
-      required this.isLast});
+      required this.isLast,
+      required this.directReplyCount,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,8 @@ class RootCommentWidget extends StatelessWidget {
           Directionality.of(context),
           commentLevel: commentLevel,
           totalNumberOfComments: totalNumberOfComments,
-          isLast: isLast),
+          isLast: isLast,
+          directReplyCount: directReplyCount),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -49,12 +54,14 @@ class RootPainter extends CustomPainter {
   int totalNumberOfComments;
   int commentLevel;
   bool isLast;
+  int directReplyCount;
   final TextDirection textDecoration;
   RootPainter(
       this.avatar, this.pathColor, this.strokeWidth, this.textDecoration,
       {required this.commentLevel,
       required this.totalNumberOfComments,
-      required this.isLast}) {
+      required this.isLast,
+      required this.directReplyCount}) {
     _paint = Paint()
       ..color = pathColor!
       ..style = PaintingStyle.stroke
@@ -67,12 +74,12 @@ class RootPainter extends CustomPainter {
     if (textDecoration == TextDirection.rtl) canvas.translate(size.width, 0);
     double dx = avatar!.width / 2;
     if (textDecoration == TextDirection.rtl) dx *= -1;
+    final offsetHeight = commentLevel == 0 && !isLast && directReplyCount > 1
+        ? size.height * totalNumberOfComments + avatar!.height - 10
+        : size.height;
     canvas.drawLine(
       Offset(dx, avatar!.height),
-      commentLevel == 0 && !isLast
-          ? Offset(dx,
-              size.height * (totalNumberOfComments + 20) - avatar!.height - 20)
-          : Offset(dx, size.height),
+      Offset(dx, offsetHeight),
       _paint,
     );
   }
