@@ -43,6 +43,15 @@ class CommentTreeWidget<R, C> extends StatefulWidget {
 }
 
 class _CommentTreeWidgetState<R, C> extends State<CommentTreeWidget<R, C>> {
+  List<GlobalKey> keys = [];
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < widget.replies.length; i++) {
+      keys.add(new GlobalKey());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     int totalNumberOfComments = widget.replies.length;
@@ -68,6 +77,9 @@ class _CommentTreeWidgetState<R, C> extends State<CommentTreeWidget<R, C>> {
             totalNumberOfComments: totalNumberOfComments,
             isLast: widget.isLast,
             directReplyCount: widget.replies.length,
+            lastReplyKey: widget.replies.length > 0
+                ? keys[widget.replies.length - 1]
+                : null,
           ),
           ..._buildReplies(avatarRoot)
         ],
@@ -82,13 +94,15 @@ class _CommentTreeWidgetState<R, C> extends State<CommentTreeWidget<R, C>> {
         _replies.add(Column(
           children: [
             CommentChildWidget(
-                commentLevel: 1,
-                isLast: widget.replies.indexOf(reply) ==
-                    (widget.replies.length - 1),
-                avatar: widget.avatarChild!(context, key),
-                avatarRoot: avatarRoot.preferredSize,
-                content: widget.contentChild!(context, key),
-                numberOfReplies: value?.length ?? 0),
+              commentLevel: 1,
+              isLast:
+                  widget.replies.indexOf(reply) == (widget.replies.length - 1),
+              avatar: widget.avatarChild!(context, key),
+              avatarRoot: avatarRoot.preferredSize,
+              content: widget.contentChild!(context, key),
+              numberOfReplies: value?.length ?? 0,
+              key: keys[widget.replies.indexOf(reply)],
+            ),
             if (value != null && value.isNotEmpty)
               ...value.map(
                 (e) => Column(

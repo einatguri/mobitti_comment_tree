@@ -9,18 +9,23 @@ class RootCommentWidget extends StatelessWidget {
   final int totalNumberOfComments;
   final int directReplyCount;
   final bool isLast;
+  final GlobalKey? lastReplyKey;
 
   const RootCommentWidget(this.avatar, this.content,
       {required this.commentLevel,
       required this.totalNumberOfComments,
       required this.isLast,
       required this.directReplyCount,
+      this.lastReplyKey,
       Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final key = GlobalKey();
+
     return CustomPaint(
+      key: key,
       painter: RootPainter(
           avatar.preferredSize,
           context.watch<TreeThemeData>().lineColor,
@@ -29,7 +34,9 @@ class RootCommentWidget extends StatelessWidget {
           commentLevel: commentLevel,
           totalNumberOfComments: totalNumberOfComments,
           isLast: isLast,
-          directReplyCount: directReplyCount),
+          directReplyCount: directReplyCount,
+          lastReplyKey: lastReplyKey,
+          rootKey: key),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -55,13 +62,18 @@ class RootPainter extends CustomPainter {
   int commentLevel;
   bool isLast;
   int directReplyCount;
+  GlobalKey? rootKey;
+  final GlobalKey? lastReplyKey;
+
   final TextDirection textDecoration;
   RootPainter(
       this.avatar, this.pathColor, this.strokeWidth, this.textDecoration,
       {required this.commentLevel,
       required this.totalNumberOfComments,
       required this.isLast,
-      required this.directReplyCount}) {
+      required this.directReplyCount,
+      this.rootKey,
+      this.lastReplyKey}) {
     _paint = Paint()
       ..color = pathColor!
       ..style = PaintingStyle.stroke
@@ -74,9 +86,27 @@ class RootPainter extends CustomPainter {
     if (textDecoration == TextDirection.rtl) canvas.translate(size.width, 0);
     double dx = avatar!.width / 2;
     if (textDecoration == TextDirection.rtl) dx *= -1;
-    final offsetHeight = commentLevel == 0 && !isLast && directReplyCount > 1
-        ? size.height * totalNumberOfComments + avatar!.height - 10
-        : size.height;
+    double offsetHeight = size.height;
+    if (rootKey != null &&
+        directReplyCount > 0 &&
+        !isLast &&
+        commentLevel == 0) {
+      if (lastReplyKey != null &&
+          lastReplyKey!.currentContext !=
+              null) if (lastReplyKey!.currentContext != null) {
+        if (rootKey!.currentContext != null) {
+          final root =
+              (rootKey?.currentContext?.findRenderObject() as RenderBox)
+                  .localToGlobal(Offset.zero);
+          final lastReply =
+              (lastReplyKey?.currentContext?.findRenderObject() as RenderBox)
+                  .localToGlobal(Offset.zero);
+
+          offsetHeight = lastReply.dy - root.dy;
+        }
+      }
+    }
+
     canvas.drawLine(
       Offset(dx, avatar!.height),
       Offset(dx, offsetHeight),

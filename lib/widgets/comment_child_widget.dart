@@ -50,15 +50,16 @@ class CommentChildWidget extends StatelessWidget {
         child: numberOfReplies > 0
             ? CustomPaint(
                 painter: RootPainter(
-                    Size(avatarRoot!.width * (commentLevel + 2),
-                        avatarRoot!.height),
-                    context.watch<TreeThemeData>().lineColor,
-                    context.watch<TreeThemeData>().lineWidth,
-                    Directionality.of(context),
-                    commentLevel: commentLevel,
-                    totalNumberOfComments: 0,
-                    isLast: isLast!,
-                    directReplyCount: numberOfReplies),
+                  Size(avatarRoot!.width * (commentLevel + 2),
+                      avatarRoot!.height),
+                  context.watch<TreeThemeData>().lineColor,
+                  context.watch<TreeThemeData>().lineWidth,
+                  Directionality.of(context),
+                  commentLevel: commentLevel,
+                  totalNumberOfComments: 0,
+                  isLast: isLast!,
+                  directReplyCount: numberOfReplies,
+                ),
                 child: contentWidget(padding))
             : contentWidget(padding));
   }

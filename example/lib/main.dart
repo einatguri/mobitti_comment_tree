@@ -64,6 +64,20 @@ class _MyHomePageState extends State<MyHomePage> {
             Comment(
                 avatar: 'null', userName: 'null', content: 'replies level 1'): [
               Comment(
+                  avatar: 'null',
+                  userName: 'null',
+                  content:
+                      'replies level 1, replies level 1, replies level 1, replies level 1, replies level 1, replies level 1, replies level 1'),
+              Comment(
+                  avatar: 'null', userName: 'null', content: 'replies level 1'),
+              Comment(
+                  avatar: 'null', userName: 'null', content: 'replies level 1')
+            ]
+          },
+          {
+            Comment(
+                avatar: 'null', userName: 'null', content: 'replies level 1'): [
+              Comment(
                   avatar: 'null', userName: 'null', content: 'replies level 1')
             ]
           },
@@ -71,7 +85,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Comment(
                 avatar: 'null',
                 userName: 'null',
-                content: 'replies level 1'): []
+                content: 'last reply for first thread'): [
+              Comment(
+                  avatar: 'null', userName: 'null', content: 'replies level 1')
+            ]
           }
         ]),
     CommentObject(
@@ -85,7 +102,21 @@ class _MyHomePageState extends State<MyHomePage> {
             avatar: 'null',
             userName: 'null',
             content: 'felangel made felangel/cubit_and_beyond public '),
-        replies: []),
+        replies: [
+          {
+            Comment(
+                avatar: 'null', userName: 'null', content: 'replies level 1'): [
+              Comment(
+                  avatar: 'null', userName: 'null', content: 'replies level 1')
+            ]
+          },
+          {
+            Comment(
+                avatar: 'null',
+                userName: 'null',
+                content: 'last reply second thread'): []
+          },
+        ]),
     CommentObject(
         comment: Comment(
             avatar: 'null',
